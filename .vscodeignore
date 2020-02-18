@@ -9,3 +9,5 @@ src/**
 **/*.ts
 example/**/.project
 testfixture/**
+coverconfig.json
+coverage/**
