@@ -21,6 +21,7 @@ import { ViewColumn, OutputChannel, workspace, Uri, window, commands, env, Exten
 import * as path from 'path';
 import { DEFAULT_TUTORIAL_CATEGORY, didactTutorialsProvider, refreshTreeview, revealTreeItem } from './extension';
 import { TutorialNode } from './nodeProvider';
+import * as vscode from 'vscode';
 
 export const DIDACT_DEFAULT_URL = 'didact.defaultUrl';
 export const DIDACT_REGISTERED_SETTING = 'didact.registered';
@@ -503,7 +504,12 @@ export function getFileExtension(pathAsString: string) : string | undefined {
 }
 
 export function getAppendRegisteredSetting() : string | undefined {
-	return extensionFunctions.getContext().workspaceState.get(DIDACT_APPEND_REGISTERED_SETTING);
+	const workspaceState = extensionFunctions.getContext().workspaceState;
+	extensionFunctions.sendTextToOutputChannel('workspacestate: '+ workspaceState);
+	const settingValue: string | undefined = workspaceState.get(DIDACT_APPEND_REGISTERED_SETTING);
+	extensionFunctions.sendTextToOutputChannel('workspaceState.get(DIDACT_APPEND_REGISTERED_SETTING): '+settingValue);
+	extensionFunctions.sendTextToOutputChannel('setting: '+vscode.workspace.getConfiguration('didact.append').get('registry'));
+	return settingValue;
 }
 
 export async function setAppendRegisteredSetting(json: any): Promise<void> {
